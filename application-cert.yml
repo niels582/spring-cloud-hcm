@@ -1,0 +1,48 @@
+server:
+  port: 9109
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sap_connector?autoReconnect=true&useSSL=false
+    username: root
+    password: mysql
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 20
+      idle-timeout: 10000
+      connection-timeout: 15000
+      auto-commit: false
+      pool-name: engine_pool_backend
+      minimum-idle: 5
+  jackson:
+    default-property-inclusion: non_null
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  cache:
+    type: caffeine
+    caffeine:
+      spec: expireAfterWrite=30s
+  flyway:
+    locations: classpath:database-cert
+
+logging:
+  config: classpath:logging/logback.xml
+
+sap:
+  destination-name: SAPInretail
+  host: 128.4.1.190
+  system-number: 01
+  client: 300
+  user: CFLORESP
+  password: iterp2017-3
+  language: es
+  path_files: "./files_connect/"
+  scheduled:
+    read:
+      frequency: 10000
